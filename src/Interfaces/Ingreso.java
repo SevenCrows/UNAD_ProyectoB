@@ -26,17 +26,72 @@ public class Ingreso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel_ingreso = new javax.swing.JPanel();
+        txt_ingreso_password = new javax.swing.JPasswordField();
+        txt_ingreso_usuario = new javax.swing.JTextField();
+        lb_ingreso_usuario = new javax.swing.JLabel();
+        lb_ingreso_password = new javax.swing.JLabel();
+        btn_ingresar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Ingreso - Hospital Comunal Las Mercedes");
+        setName("frame_ingreso"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(350, 200));
+        setResizable(false);
+
+        panel_ingreso.setPreferredSize(new java.awt.Dimension(350, 200));
+
+        lb_ingreso_usuario.setText("Usuario");
+
+        lb_ingreso_password.setText("Contraseña");
+
+        btn_ingresar.setText("Ingresar");
+
+        javax.swing.GroupLayout panel_ingresoLayout = new javax.swing.GroupLayout(panel_ingreso);
+        panel_ingreso.setLayout(panel_ingresoLayout);
+        panel_ingresoLayout.setHorizontalGroup(
+            panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_ingresoLayout.createSequentialGroup()
+                .addGroup(panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_ingresoLayout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addGroup(panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_ingreso_usuario)
+                            .addComponent(lb_ingreso_password))
+                        .addGap(22, 22, 22)
+                        .addGroup(panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_ingreso_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_ingreso_password, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panel_ingresoLayout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(btn_ingresar, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        panel_ingresoLayout.setVerticalGroup(
+            panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_ingresoLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_ingreso_usuario)
+                    .addComponent(txt_ingreso_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel_ingresoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_ingreso_password)
+                    .addComponent(txt_ingreso_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(btn_ingresar)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(panel_ingreso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(panel_ingreso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -78,5 +133,11 @@ public class Ingreso extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_ingresar;
+    private javax.swing.JLabel lb_ingreso_password;
+    private javax.swing.JLabel lb_ingreso_usuario;
+    private javax.swing.JPanel panel_ingreso;
+    private javax.swing.JPasswordField txt_ingreso_password;
+    private javax.swing.JTextField txt_ingreso_usuario;
     // End of variables declaration//GEN-END:variables
 }
