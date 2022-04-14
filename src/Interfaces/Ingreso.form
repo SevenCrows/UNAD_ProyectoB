@@ -35,7 +35,7 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="panel_toolbar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panel_ingreso" min="-2" pref="129" max="-2" attributes="0"/>
+              <Component id="panel_ingreso" min="-2" pref="147" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -93,7 +93,7 @@
                       <Component id="btn_ingresar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btn_registrar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <EmptySpace pref="32" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -171,9 +171,6 @@
             <Property name="text" type="java.lang.String" value="HOSPITAL COMUNAL LAS MERCEDES"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="HOSPITAL COMUNAL LAS MERCEDES"/>
-          </AccessibilityProperties>
         </Component>
       </SubComponents>
     </Container>
