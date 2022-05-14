@@ -5,6 +5,13 @@
 package Interfaces.Vacuna;
 
 import Interfaces.MenuPrincipal;
+import Variables.Entidad.Dosis;
+import Variables.Entidad.Genero;
+import Variables.Entidad.Vacuna;
+import Variables.Modelo.ModeloDosis;
+import Variables.Modelo.ModeloGenero;
+import Variables.Modelo.ModeloVacuna;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,7 +24,29 @@ public class RegistroVacunacion extends javax.swing.JFrame {
      */
     public RegistroVacunacion() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        CargarListaVacuna();
+        CargarListaDosis();
+    }
+
+    private void CargarListaVacuna() {
+        ModeloVacuna modeloVacuna = new ModeloVacuna();
+        ArrayList<Vacuna> listaVacuna = modeloVacuna.ObtenerListaVacuna();
+        cb_vacuna.removeAllItems();
+        cb_vacuna.addItem("Seleccione una opción");
+        for (int i = 0; i < listaVacuna.size(); i++) {
+            cb_vacuna.addItem(listaVacuna.get(i).getDescripcion());
+        }
+    }
+
+    private void CargarListaDosis() {
+        ModeloDosis modeloDosis = new ModeloDosis();
+        ArrayList<Dosis> listaDosis = modeloDosis.ObtenerListaDosis();
+        cb_dosis.removeAllItems();
+        cb_dosis.addItem("Seleccione una opción");
+        for (int i = 0; i < listaDosis.size(); i++) {
+            cb_dosis.addItem(listaDosis.get(i).getDescripcion());
+        }
     }
 
     /**
@@ -39,7 +68,7 @@ public class RegistroVacunacion extends javax.swing.JFrame {
         btn_regresar = new javax.swing.JButton();
         txt_identificacion = new javax.swing.JTextField();
         ftf_fecha_proxima_dosis = new javax.swing.JFormattedTextField();
-        cbl_vacuna = new javax.swing.JComboBox<>();
+        cb_vacuna = new javax.swing.JComboBox<>();
         lb_dosis = new javax.swing.JLabel();
         cb_dosis = new javax.swing.JComboBox<>();
 
@@ -93,11 +122,7 @@ public class RegistroVacunacion extends javax.swing.JFrame {
 
         ftf_fecha_proxima_dosis.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
 
-        cbl_vacuna.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Pfizer", "Moderna", "AstraZeneca", "Janssen", "Sinovac", "Sinopharm", "Zydus", "Gamaleya" }));
-
         lb_dosis.setText("Dosis:");
-
-        cb_dosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Primera", "Segunda", "Tercera" }));
 
         javax.swing.GroupLayout panel_registroLayout = new javax.swing.GroupLayout(panel_registro);
         panel_registro.setLayout(panel_registroLayout);
@@ -110,21 +135,20 @@ public class RegistroVacunacion extends javax.swing.JFrame {
                         .addComponent(lb_fecha_proxima_dosis)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ftf_fecha_proxima_dosis))
-                    .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_registroLayout.createSequentialGroup()
-                            .addComponent(lb_identificacion)
-                            .addGap(12, 12, 12)
-                            .addComponent(txt_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(panel_registroLayout.createSequentialGroup()
-                            .addComponent(lb_vacuna)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbl_vacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(panel_registroLayout.createSequentialGroup()
-                            .addComponent(lb_dosis)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cb_dosis, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_registroLayout.createSequentialGroup()
+                        .addComponent(lb_identificacion)
+                        .addGap(12, 12, 12)
+                        .addComponent(txt_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel_registroLayout.createSequentialGroup()
+                        .addComponent(lb_vacuna)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cb_vacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panel_registroLayout.createSequentialGroup()
+                        .addComponent(lb_dosis)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cb_dosis, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         panel_registroLayout.setVerticalGroup(
@@ -137,7 +161,7 @@ public class RegistroVacunacion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_vacuna)
-                    .addComponent(cbl_vacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cb_vacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_dosis)
@@ -220,7 +244,7 @@ public class RegistroVacunacion extends javax.swing.JFrame {
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JComboBox<String> cb_dosis;
-    private javax.swing.JComboBox<String> cbl_vacuna;
+    private javax.swing.JComboBox<String> cb_vacuna;
     private javax.swing.JFormattedTextField ftf_fecha_proxima_dosis;
     private javax.swing.JLabel lb_dosis;
     private javax.swing.JLabel lb_fecha_proxima_dosis;

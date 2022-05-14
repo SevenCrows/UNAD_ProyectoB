@@ -4,6 +4,16 @@
  */
 package Interfaces;
 
+import Variables.Entidad.Dosis;
+import Variables.Entidad.Genero;
+import Variables.Entidad.TipoIdentificacion;
+import Variables.Entidad.TipoUsuario;
+import Variables.Modelo.ModeloDosis;
+import Variables.Modelo.ModeloGenero;
+import Variables.Modelo.ModeloTipoIdentificacion;
+import Variables.Modelo.ModeloTipoUsuario;
+import java.util.ArrayList;
+
 /**
  *
  * @author Alex
@@ -15,7 +25,40 @@ public class RegistroUsuario extends javax.swing.JFrame {
      */
     public RegistroUsuario() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        CargarListaGenero();
+        CargarListaTipoIdentificacion();
+        CargarListaTipoUsuario();
+    }
+
+    private void CargarListaGenero() {
+        ModeloGenero modeloGenero = new ModeloGenero();
+        ArrayList<Genero> listaGenero = modeloGenero.ObtenerListaGeneros();
+        cb_genero.removeAllItems();
+        cb_genero.addItem("Seleccione una opción");
+        for (int i = 0; i < listaGenero.size(); i++) {
+            cb_genero.addItem(listaGenero.get(i).getDescripcion());
+        }
+    }
+
+    private void CargarListaTipoIdentificacion() {
+        ModeloTipoIdentificacion modeloTipoIdentificacion = new ModeloTipoIdentificacion();
+        ArrayList<TipoIdentificacion> listaTipoIdentificacion = modeloTipoIdentificacion.ObtenerListaTipoIdentificacion();
+        cb_tipo_identificacion.removeAllItems();
+        cb_tipo_identificacion.addItem("Seleccione una opción");
+        for (int i = 0; i < listaTipoIdentificacion.size(); i++) {
+            cb_tipo_identificacion.addItem(listaTipoIdentificacion.get(i).getDescripcion());
+        }
+    }
+
+    private void CargarListaTipoUsuario() {
+        ModeloTipoUsuario modeloTipoUsuario = new ModeloTipoUsuario();
+        ArrayList<TipoUsuario> listaTipoUsuario = modeloTipoUsuario.ObtenerListaTipoUsuario();
+        cb_tipo_usuario.removeAllItems();
+        cb_tipo_usuario.addItem("Seleccione una opción");
+        for (int i = 0; i < listaTipoUsuario.size(); i++) {
+            cb_tipo_usuario.addItem(listaTipoUsuario.get(i).getDescripcion());
+        }
     }
 
     /**
@@ -113,13 +156,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
             }
         });
 
-        cb_tipo_identificacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Tarjeta de identidad", "Cedula de ciudadanía", "Pasaporte" }));
-
-        cb_tipo_usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Paciente", "Funcionario" }));
-
         ftf_fecha_nacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
-
-        cb_genero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una opción", "Masculino", "Femenino" }));
 
         lb_tipo_usuario1.setText("Activo:");
 

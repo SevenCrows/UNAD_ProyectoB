@@ -97,24 +97,22 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="ftf_fecha_proxima_dosis" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lb_identificacion" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                              <Component id="txt_identificacion" min="-2" pref="242" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lb_vacuna" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="cbl_vacuna" min="-2" pref="242" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="btn_regresar" min="-2" pref="112" max="-2" attributes="0"/>
-                          <Component id="btn_guardar" min="-2" pref="112" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="lb_dosis" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="cb_dosis" min="-2" pref="242" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lb_identificacion" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="txt_identificacion" min="-2" pref="242" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="lb_vacuna" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="cb_vacuna" min="-2" pref="242" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="btn_regresar" min="-2" pref="112" max="-2" attributes="0"/>
+                      <Component id="btn_guardar" min="-2" pref="112" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="lb_dosis" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="cb_dosis" min="-2" pref="242" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="29" max="32767" attributes="0"/>
@@ -132,7 +130,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lb_vacuna" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbl_vacuna" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cb_vacuna" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -194,20 +192,10 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbl_vacuna">
+        <Component class="javax.swing.JComboBox" name="cb_vacuna">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="9">
-                <StringItem index="0" value="Seleccione una opci&#xf3;n"/>
-                <StringItem index="1" value="Pfizer"/>
-                <StringItem index="2" value="Moderna"/>
-                <StringItem index="3" value="AstraZeneca"/>
-                <StringItem index="4" value="Janssen"/>
-                <StringItem index="5" value="Sinovac"/>
-                <StringItem index="6" value="Sinopharm"/>
-                <StringItem index="7" value="Zydus"/>
-                <StringItem index="8" value="Gamaleya"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
@@ -222,12 +210,7 @@
         <Component class="javax.swing.JComboBox" name="cb_dosis">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Seleccione una opci&#xf3;n"/>
-                <StringItem index="1" value="Primera"/>
-                <StringItem index="2" value="Segunda"/>
-                <StringItem index="3" value="Tercera"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
