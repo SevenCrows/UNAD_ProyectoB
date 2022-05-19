@@ -23,8 +23,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panel_registro" max="32767" attributes="0"/>
-          <Component id="panel_toolbar_registro" alignment="0" pref="425" max="32767" attributes="0"/>
+          <Component id="panel_toolbar_registro" alignment="0" pref="882" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="panel_registro" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -32,7 +35,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panel_toolbar_registro" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panel_registro" min="-2" max="-2" attributes="0"/>
+              <Component id="panel_registro" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -103,25 +106,35 @@
                       <Component id="lb_tipo_identificacion" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="lb_tipo_usuario1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace pref="28" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cb_activo" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="btn_guardar" min="-2" pref="112" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btn_regresar" min="-2" pref="112" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cb_tipo_identificacion" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                  <Component id="txt_primer_apellido" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="txt_segundo_apellido" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="cb_genero" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="txt_segundo_nombre" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="ftf_fecha_nacimiento" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="cb_tipo_usuario" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="txt_primer_nombre" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                              <Component id="txt_identificacion" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                          <Component id="pnl_login" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="txt_identificacion" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="cb_tipo_identificacion" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="txt_primer_nombre" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="txt_segundo_nombre" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="txt_primer_apellido" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="txt_segundo_apellido" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="cb_genero" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="ftf_fecha_nacimiento" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
-                      <Component id="cb_tipo_usuario" alignment="0" min="-2" pref="242" max="-2" attributes="0"/>
+                      <Component id="cbx_activo" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="20" max="32767" attributes="0"/>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="btn_guardar" min="-2" pref="112" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btn_regresar" min="-2" pref="112" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -129,61 +142,68 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_tipo_identificacion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cb_tipo_identificacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="pnl_login" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lb_tipo_identificacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cb_tipo_identificacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lb_identificacion" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                                      <Component id="txt_identificacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lb_primer_nombre" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_primer_nombre" min="-2" pref="22" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="lb_segundo_nombre" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_segundo_nombre" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lb_primer_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_primer_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lb_segundo_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_segundo_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lb_genero" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cb_genero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lb_fecha_nacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="ftf_fecha_nacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lb_tipo_usuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cb_tipo_usuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="lb_tipo_usuario1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="cbx_activo" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_identificacion" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="txt_identificacion" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_primer_nombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_primer_nombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_segundo_nombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_segundo_nombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_primer_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_primer_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_segundo_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_segundo_apellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_genero" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cb_genero" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_fecha_nacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ftf_fecha_nacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lb_tipo_usuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cb_tipo_usuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cb_activo" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lb_tipo_usuario1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace pref="12" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btn_guardar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btn_regresar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -266,6 +286,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_tipo_usuarioActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -302,11 +325,115 @@
             <Property name="text" type="java.lang.String" value="Activo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="cb_activo">
+        <Component class="javax.swing.JCheckBox" name="cbx_activo">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
           </Properties>
         </Component>
+        <Container class="javax.swing.JPanel" name="pnl_login">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                <CompoundBorder>
+                  <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                    <CompoundBorder/>
+                  </Border>
+                  <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
+                    <CompoundBorder/>
+                  </Border>
+                </CompoundBorder>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lb_password" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lb_usuario" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lb_password_repetir" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jpf_password" min="-2" pref="220" max="-2" attributes="0"/>
+                                  <Component id="jpf_password_rectificar" min="-2" pref="219" max="-2" attributes="0"/>
+                                  <Component id="txt_usuario" min="-2" pref="220" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                              <Component id="lb_titulo_usuario" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="37" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <Component id="lb_titulo_usuario" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lb_usuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_usuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lb_password" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jpf_password" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lb_password_repetir" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jpf_password_rectificar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lb_usuario">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Usuario:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lb_password">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Contrase&#xf1;a:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lb_password_repetir">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Repetir contrase&#xf1;a:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txt_usuario">
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="jpf_password">
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="jpf_password_rectificar">
+            </Component>
+            <Component class="javax.swing.JLabel" name="lb_titulo_usuario">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="3"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="INFORMACI&#xd3;N DE USUARIO"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

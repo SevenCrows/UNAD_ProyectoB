@@ -4,18 +4,24 @@
  */
 package Interfaces;
 
+import Variables.Modelo.ModeloLogin;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Alex
  */
 public class Ingreso extends javax.swing.JFrame {
 
+    private ModeloLogin login;
+
     /**
      * Creates new form Ingreso
      */
     public Ingreso() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        this.login = new ModeloLogin();
     }
 
     /**
@@ -146,9 +152,23 @@ public class Ingreso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
-        MenuPrincipal menu = new MenuPrincipal();
-        menu.setVisible(true);
-        this.setVisible(false);
+
+        String usuario = txt_ingreso_usuario.getText();
+        String password = String.valueOf(txt_ingreso_password.getPassword());
+
+        Boolean acceder = this.login.ValidarAccesoPlataforma(usuario, password);
+
+        if (acceder) {
+            MenuPrincipal menu = new MenuPrincipal();
+            menu.setVisible(true);
+            this.setVisible(false);
+        }        
+        else            
+        {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        }
+
+
     }//GEN-LAST:event_btn_ingresarActionPerformed
 
     private void btn_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarActionPerformed

@@ -4,15 +4,24 @@
  */
 package Interfaces;
 
-import Variables.Entidad.Dosis;
+import Variables.Entidad.Empleado;
 import Variables.Entidad.Genero;
+import Variables.Entidad.Login;
+import Variables.Entidad.Paciente;
 import Variables.Entidad.TipoIdentificacion;
 import Variables.Entidad.TipoUsuario;
-import Variables.Modelo.ModeloDosis;
 import Variables.Modelo.ModeloGenero;
+import Variables.Modelo.ModeloLogin;
 import Variables.Modelo.ModeloTipoIdentificacion;
 import Variables.Modelo.ModeloTipoUsuario;
+import Variables.Modelo.ModeloUsuario;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,10 +29,26 @@ import java.util.ArrayList;
  */
 public class RegistroUsuario extends javax.swing.JFrame {
 
+    private Boolean esEdicion;
+    private ModeloUsuario modeloUsuario;
+    private ModeloLogin modeloLogin;
+
     /**
      * Creates new form RegistroUsuario
      */
     public RegistroUsuario() {
+        this.esEdicion = false;
+        initComponents();
+        this.setLocationRelativeTo(null);
+        CargarListaGenero();
+        CargarListaTipoIdentificacion();
+        CargarListaTipoUsuario();
+        this.modeloUsuario = new ModeloUsuario();
+        this.modeloLogin = new ModeloLogin();
+    }
+
+    public RegistroUsuario(Boolean editar) {
+        this.esEdicion = editar;
         initComponents();
         this.setLocationRelativeTo(null);
         CargarListaGenero();
@@ -59,6 +84,8 @@ public class RegistroUsuario extends javax.swing.JFrame {
         for (int i = 0; i < listaTipoUsuario.size(); i++) {
             cb_tipo_usuario.addItem(listaTipoUsuario.get(i).getDescripcion());
         }
+
+        cb_tipo_usuario.setEnabled(!this.esEdicion);
     }
 
     /**
@@ -94,7 +121,15 @@ public class RegistroUsuario extends javax.swing.JFrame {
         cb_genero = new javax.swing.JComboBox<>();
         txt_segundo_apellido = new javax.swing.JTextField();
         lb_tipo_usuario1 = new javax.swing.JLabel();
-        cb_activo = new javax.swing.JCheckBox();
+        cbx_activo = new javax.swing.JCheckBox();
+        pnl_login = new javax.swing.JPanel();
+        lb_usuario = new javax.swing.JLabel();
+        lb_password = new javax.swing.JLabel();
+        lb_password_repetir = new javax.swing.JLabel();
+        txt_usuario = new javax.swing.JTextField();
+        jpf_password = new javax.swing.JPasswordField();
+        jpf_password_rectificar = new javax.swing.JPasswordField();
+        lb_titulo_usuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,11 +191,71 @@ public class RegistroUsuario extends javax.swing.JFrame {
             }
         });
 
+        cb_tipo_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_tipo_usuarioActionPerformed(evt);
+            }
+        });
+
         ftf_fecha_nacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
 
         lb_tipo_usuario1.setText("Activo:");
 
-        cb_activo.setSelected(true);
+        cbx_activo.setSelected(true);
+
+        pnl_login.setBackground(new java.awt.Color(204, 204, 204));
+        pnl_login.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createCompoundBorder(), javax.swing.BorderFactory.createCompoundBorder()));
+
+        lb_usuario.setText("Usuario:");
+
+        lb_password.setText("Contraseña:");
+
+        lb_password_repetir.setText("Repetir contraseña:");
+
+        lb_titulo_usuario.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lb_titulo_usuario.setText("INFORMACIÓN DE USUARIO");
+
+        javax.swing.GroupLayout pnl_loginLayout = new javax.swing.GroupLayout(pnl_login);
+        pnl_login.setLayout(pnl_loginLayout);
+        pnl_loginLayout.setHorizontalGroup(
+            pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_loginLayout.createSequentialGroup()
+                .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_loginLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_password)
+                            .addComponent(lb_usuario)
+                            .addComponent(lb_password_repetir))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jpf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jpf_password_rectificar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnl_loginLayout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(lb_titulo_usuario)))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+        pnl_loginLayout.setVerticalGroup(
+            pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_loginLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(lb_titulo_usuario)
+                .addGap(18, 18, 18)
+                .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_usuario)
+                    .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_password)
+                    .addComponent(jpf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_password_repetir)
+                    .addComponent(jpf_password_rectificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panel_registroLayout = new javax.swing.GroupLayout(panel_registro);
         panel_registro.setLayout(panel_registroLayout);
@@ -179,101 +274,179 @@ public class RegistroUsuario extends javax.swing.JFrame {
                     .addComponent(lb_identificacion)
                     .addComponent(lb_tipo_identificacion)
                     .addComponent(lb_tipo_usuario1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cb_activo)
                     .addGroup(panel_registroLayout.createSequentialGroup()
-                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txt_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_tipo_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_primer_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_segundo_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_primer_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_segundo_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_genero, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ftf_fecha_nacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_tipo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cb_tipo_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_primer_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_segundo_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cb_genero, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_segundo_nombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ftf_fecha_nacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cb_tipo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_primer_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addComponent(pnl_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbx_activo))
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_registroLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
         );
         panel_registroLayout.setVerticalGroup(
             panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_registroLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_tipo_identificacion)
-                    .addComponent(cb_tipo_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_primer_nombre)
-                    .addComponent(txt_primer_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_segundo_nombre)
-                    .addComponent(txt_segundo_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_primer_apellido)
-                    .addComponent(txt_primer_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_segundo_apellido)
-                    .addComponent(txt_segundo_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_genero)
-                    .addComponent(cb_genero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_fecha_nacimiento)
-                    .addComponent(ftf_fecha_nacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_tipo_usuario)
-                    .addComponent(cb_tipo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cb_activo)
-                    .addComponent(lb_tipo_usuario1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panel_registroLayout.createSequentialGroup()
+                        .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pnl_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panel_registroLayout.createSequentialGroup()
+                                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lb_tipo_identificacion)
+                                    .addComponent(cb_tipo_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lb_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lb_primer_nombre)
+                                    .addComponent(txt_primer_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lb_segundo_nombre)
+                                    .addComponent(txt_segundo_nombre))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lb_primer_apellido)
+                                    .addComponent(txt_primer_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lb_segundo_apellido)
+                                    .addComponent(txt_segundo_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lb_genero)
+                            .addComponent(cb_genero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lb_fecha_nacimiento)
+                            .addComponent(ftf_fecha_nacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lb_tipo_usuario)
+                            .addComponent(cb_tipo_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lb_tipo_usuario1))
+                    .addComponent(cbx_activo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardar)
                     .addComponent(btn_regresar))
-                .addGap(14, 14, 14))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_registro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panel_toolbar_registro, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+            .addComponent(panel_toolbar_registro, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel_registro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panel_toolbar_registro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel_registro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panel_registro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
         Ingreso ingreso = new Ingreso();
         ingreso.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_regresarActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+
+        try {
+            if (cb_tipo_usuario.getSelectedIndex() != 0) {
+                if (cb_tipo_usuario.getSelectedIndex() == 1) {
+                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                    Date fecha = (Date) formato.parse(ftf_fecha_nacimiento.getText());
+                    Paciente paciente = new Paciente(
+                            Long.parseLong(txt_identificacion.getText()),
+                            txt_primer_nombre.getText(),
+                            txt_segundo_nombre.getText(),
+                            txt_primer_apellido.getText(),
+                            txt_segundo_apellido.getText(),
+                            Date.valueOf("1993-05-27"),
+                            true,
+                            cb_genero.getSelectedIndex(),
+                            cb_tipo_usuario.getSelectedIndex(),
+                            cb_tipo_identificacion.getSelectedIndex()
+                    );
+
+                    int id = this.modeloUsuario.GuardarUsuario(paciente);
+
+                } else {
+
+                    Empleado empleado = new Empleado(
+                            Long.parseLong(txt_identificacion.getText()),
+                            txt_primer_nombre.getText(),
+                            txt_segundo_nombre.getText(),
+                            txt_primer_apellido.getText(),
+                            txt_segundo_apellido.getText(),
+                            Date.valueOf("1993-05-27"),
+                            true,
+                            cb_genero.getSelectedIndex(),
+                            cb_tipo_usuario.getSelectedIndex(),
+                            cb_tipo_identificacion.getSelectedIndex(),
+                            txt_usuario.getText(),
+                            String.copyValueOf(jpf_password.getPassword())
+                    );
+
+                    int id = this.modeloUsuario.GuardarUsuario(empleado);
+
+                    Login login = new Login(id, empleado.getUsuario(), empleado.getContrasenia());
+                    this.modeloLogin.GuardarLoginEmpleado(login);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(RegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+
+    private void cb_tipo_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_tipo_usuarioActionPerformed
+        // TODO add your handling code here:
+        if (cb_tipo_usuario.getSelectedIndex() == 2) {
+            pnl_login.setVisible(true);
+            //TODO: Cargar la informacion del login si existe al editar
+        } else {
+            pnl_login.setVisible(false);
+
+            if (!this.esEdicion) {
+                txt_usuario.setText("");
+                jpf_password.setText("");
+                jpf_password_rectificar.setText("");
+            }
+        }
+    }//GEN-LAST:event_cb_tipo_usuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,14 +486,18 @@ public class RegistroUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_regresar;
-    private javax.swing.JCheckBox cb_activo;
     private javax.swing.JComboBox<String> cb_genero;
     private javax.swing.JComboBox<String> cb_tipo_identificacion;
     private javax.swing.JComboBox<String> cb_tipo_usuario;
+    private javax.swing.JCheckBox cbx_activo;
     private javax.swing.JFormattedTextField ftf_fecha_nacimiento;
+    private javax.swing.JPasswordField jpf_password;
+    private javax.swing.JPasswordField jpf_password_rectificar;
     private javax.swing.JLabel lb_fecha_nacimiento;
     private javax.swing.JLabel lb_genero;
     private javax.swing.JLabel lb_identificacion;
+    private javax.swing.JLabel lb_password;
+    private javax.swing.JLabel lb_password_repetir;
     private javax.swing.JLabel lb_primer_apellido;
     private javax.swing.JLabel lb_primer_nombre;
     private javax.swing.JLabel lb_segundo_apellido;
@@ -329,12 +506,16 @@ public class RegistroUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel lb_tipo_usuario;
     private javax.swing.JLabel lb_tipo_usuario1;
     private javax.swing.JLabel lb_titulo_registro;
+    private javax.swing.JLabel lb_titulo_usuario;
+    private javax.swing.JLabel lb_usuario;
     private javax.swing.JPanel panel_registro;
     private javax.swing.JPanel panel_toolbar_registro;
+    private javax.swing.JPanel pnl_login;
     private javax.swing.JTextField txt_identificacion;
     private javax.swing.JTextField txt_primer_apellido;
     private javax.swing.JTextField txt_primer_nombre;
     private javax.swing.JTextField txt_segundo_apellido;
     private javax.swing.JTextField txt_segundo_nombre;
+    private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
 }
