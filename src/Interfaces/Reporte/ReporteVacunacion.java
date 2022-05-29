@@ -5,6 +5,15 @@
 package Interfaces.Reporte;
 
 import Interfaces.MenuPrincipal;
+import Variables.Consulta.VacunaConsulta;
+import Variables.Modelo.ModeloUsuario;
+import Variables.Modelo.ModeloVacuna;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,12 +21,17 @@ import Interfaces.MenuPrincipal;
  */
 public class ReporteVacunacion extends javax.swing.JFrame {
 
+    private ModeloVacuna modeloVacuna;
+    private ModeloUsuario modeloUsuario;
+
     /**
      * Creates new form ReporteVacunacion
      */
     public ReporteVacunacion() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        this.modeloVacuna = new ModeloVacuna();
+        this.modeloUsuario = new ModeloUsuario();
     }
 
     /**
@@ -33,8 +47,8 @@ public class ReporteVacunacion extends javax.swing.JFrame {
         lb_titulo_registro = new javax.swing.JLabel();
         panel_consulta_usuario = new javax.swing.JPanel();
         tabla_usuario = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        txt_uscar_identificacion = new javax.swing.JTextField();
+        jtable_reporte = new javax.swing.JTable();
+        txt_buscar_identificacion = new javax.swing.JTextField();
         lb_identificacion = new javax.swing.JLabel();
         btn_buscar = new javax.swing.JButton();
         btn_regresar = new javax.swing.JButton();
@@ -67,22 +81,42 @@ public class ReporteVacunacion extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_reporte.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Identificación", "Vacuna", "Dosis", "Fecha Vacunación", "Próxima Dosis"
             }
-        ));
-        tabla_usuario.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_usuario.setViewportView(jtable_reporte);
 
         lb_identificacion.setText("Identificación");
 
         btn_buscar.setText("Buscar");
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarActionPerformed(evt);
+            }
+        });
 
         btn_regresar.setText("Regresar");
         btn_regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +137,7 @@ public class ReporteVacunacion extends javax.swing.JFrame {
                     .addGroup(panel_consulta_usuarioLayout.createSequentialGroup()
                         .addComponent(lb_identificacion)
                         .addGap(18, 18, 18)
-                        .addComponent(txt_uscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_buscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21))
@@ -113,7 +147,7 @@ public class ReporteVacunacion extends javax.swing.JFrame {
             .addGroup(panel_consulta_usuarioLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(panel_consulta_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_uscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_buscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lb_identificacion)
                     .addComponent(btn_buscar))
                 .addGap(27, 27, 27)
@@ -146,6 +180,52 @@ public class ReporteVacunacion extends javax.swing.JFrame {
         menu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_regresarActionPerformed
+
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (TextoVacio(txt_buscar_identificacion.getText())) {
+                JOptionPane.showMessageDialog(null, "Diligencie una identificación para buscar");
+            } else {
+                int idPersona;
+
+                idPersona = this.modeloUsuario.RecuperarIdPersona(txt_buscar_identificacion.getText());
+
+                if (idPersona != 0) {
+                    DefaultTableModel modelo = new DefaultTableModel();
+                    jtable_reporte.setModel(modelo);
+                    modelo.addColumn("Id");
+                    modelo.addColumn("Identificación");
+                    modelo.addColumn("Vacuna");
+                    modelo.addColumn("Dosis");
+                    modelo.addColumn("Fecha Vacunación");
+                    modelo.addColumn("Próxima Dosis");
+
+                    ArrayList<VacunaConsulta> listaVacuna = this.modeloVacuna.ObtenerReporteVacunacion(idPersona);
+
+                    if (listaVacuna.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No se encontraron registros");
+                    } else {
+                        for (int i = 0; i < listaVacuna.size(); i++) {
+                            Object[] datosRegistro = {
+                                listaVacuna.get(i).getId(),
+                                listaVacuna.get(i).getIdentificacion(),
+                                listaVacuna.get(i).getVacuna(),
+                                listaVacuna.get(i).getDosis(),
+                                listaVacuna.get(i).getFechaVacunacion(),
+                                listaVacuna.get(i).getProximaFecha()
+                            };
+                            modelo.addRow(datosRegistro);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "La identificación ingresada no se encuentra registrada en el sistema");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReporteVacunacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_buscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,15 +262,19 @@ public class ReporteVacunacion extends javax.swing.JFrame {
         });
     }
 
+    private static boolean TextoVacio(String parametro) {
+        return parametro == null || parametro.trim().length() == 0;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_regresar;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtable_reporte;
     private javax.swing.JLabel lb_identificacion;
     private javax.swing.JLabel lb_titulo_registro;
     private javax.swing.JPanel panel_consulta_usuario;
     private javax.swing.JPanel panel_toolbar_menu;
     private javax.swing.JScrollPane tabla_usuario;
-    private javax.swing.JTextField txt_uscar_identificacion;
+    private javax.swing.JTextField txt_buscar_identificacion;
     // End of variables declaration//GEN-END:variables
 }

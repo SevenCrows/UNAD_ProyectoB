@@ -53,7 +53,7 @@ public class ModeloUsuario {
 
     public void EditarUsuario(DatoUsuario usuario) throws SQLException {
         String editar = "UPDATE persona SET PrimerNombre = ?,SegundoNombre = ?, PrimerApellido = ?, SegundoApellido = ?, Fecha_Nacimiento = ?, Activo = ?, IdGenero = ?, IdTipoIdentificacion = ? WHERE Id = ?";
-        PreparedStatement ps = conexion.conection.prepareStatement(editar);        
+        PreparedStatement ps = conexion.conection.prepareStatement(editar);
         ps.setString(1, usuario.getPrimerNombre());
         ps.setString(2, usuario.getSegundoNombre());
         ps.setString(3, usuario.getPrimerApellido());
@@ -65,7 +65,7 @@ public class ModeloUsuario {
         ps.setInt(9, usuario.getId());
 
         int row = ps.executeUpdate();
-        
+
     }
 
     public ArrayList<UsuarioConsulta> ConsultarListaUsuariosPorIdentificacion(String identificacion) {
@@ -98,5 +98,19 @@ public class ModeloUsuario {
             Logger.getLogger(ModeloGenero.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaUsuarios;
+    }
+
+    public int RecuperarIdPersona(String identificacion) throws SQLException {
+        Statement stmt;
+        ResultSet rs;
+        int id = 0;
+        stmt = conexion.conection.createStatement();
+        rs = stmt.executeQuery("SELECT Id FROM persona WHERE Identificacion = '" + identificacion + "'");
+
+        while (rs.next()) {
+            id = rs.getInt("Id");
+        }
+
+        return id;
     }
 }

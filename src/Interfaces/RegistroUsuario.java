@@ -226,6 +226,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         });
 
         ftf_fecha_nacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        ftf_fecha_nacimiento.setToolTipText("yyyy-MM-dd");
 
         lb_tipo_usuario1.setText("Activo:");
 

@@ -6,12 +6,18 @@ package Interfaces.Vacuna;
 
 import Interfaces.MenuPrincipal;
 import Variables.Entidad.Dosis;
-import Variables.Entidad.Genero;
+import Variables.Entidad.RegistroVacuna;
 import Variables.Entidad.Vacuna;
 import Variables.Modelo.ModeloDosis;
-import Variables.Modelo.ModeloGenero;
+import Variables.Modelo.ModeloUsuario;
 import Variables.Modelo.ModeloVacuna;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,19 +25,25 @@ import java.util.ArrayList;
  */
 public class RegistroVacunacion extends javax.swing.JFrame {
 
+    private ModeloUsuario modeloUsuario;
+    private ModeloVacuna modeloVacuna;
+    private ModeloDosis modeloDosis;
+
     /**
      * Creates new form RegistroVacunacion
      */
     public RegistroVacunacion() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.modeloUsuario = new ModeloUsuario();
+        this.modeloVacuna = new ModeloVacuna();
+        this.modeloDosis = new ModeloDosis();
         CargarListaVacuna();
         CargarListaDosis();
     }
 
     private void CargarListaVacuna() {
-        ModeloVacuna modeloVacuna = new ModeloVacuna();
-        ArrayList<Vacuna> listaVacuna = modeloVacuna.ObtenerListaVacuna();
+        ArrayList<Vacuna> listaVacuna = this.modeloVacuna.ObtenerListaVacuna();
         cb_vacuna.removeAllItems();
         cb_vacuna.addItem("Seleccione una opción");
         for (int i = 0; i < listaVacuna.size(); i++) {
@@ -40,8 +52,7 @@ public class RegistroVacunacion extends javax.swing.JFrame {
     }
 
     private void CargarListaDosis() {
-        ModeloDosis modeloDosis = new ModeloDosis();
-        ArrayList<Dosis> listaDosis = modeloDosis.ObtenerListaDosis();
+        ArrayList<Dosis> listaDosis = this.modeloDosis.ObtenerListaDosis();
         cb_dosis.removeAllItems();
         cb_dosis.addItem("Seleccione una opción");
         for (int i = 0; i < listaDosis.size(); i++) {
@@ -120,7 +131,8 @@ public class RegistroVacunacion extends javax.swing.JFrame {
             }
         });
 
-        ftf_fecha_proxima_dosis.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        ftf_fecha_proxima_dosis.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        ftf_fecha_proxima_dosis.setToolTipText("yyyy-MM-dd");
 
         lb_dosis.setText("Dosis:");
 
@@ -196,14 +208,90 @@ public class RegistroVacunacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
-        MenuPrincipal menu = new MenuPrincipal();
-        menu.setVisible(true);
-        this.setVisible(false);
+        SalirDeLaPantalla();
     }//GEN-LAST:event_btn_regresarActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
+        try {
+            if (ValidarFormulario()) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date(System.currentTimeMillis());              
+
+                int idPersona = this.modeloUsuario.RecuperarIdPersona(txt_identificacion.getText());
+
+                if (idPersona != 0) {
+                    RegistroVacuna registro = new RegistroVacuna(
+                            idPersona,
+                            cb_vacuna.getSelectedIndex(),
+                            cb_dosis.getSelectedIndex(),
+                            Date.valueOf(formatter.format(date)),
+                            Date.valueOf(ftf_fecha_proxima_dosis.getText())
+                    );
+
+                    try {
+                        int r = this.modeloVacuna.GuardarReporteVacunacion(registro);
+
+                        if (r != 0) {
+                            int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Datos almacenados correctamente", "Ok!", JOptionPane.DEFAULT_OPTION);
+                            if (showConfirmDialog == 0) {
+                                SalirDeLaPantalla();
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al almacenar el registro");
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(RegistroVacunacion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El número de identificación ingresado no se encuentra registrado en plataforma");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroVacunacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void SalirDeLaPantalla() {
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);
+        this.setVisible(false);
+    }
+
+    private Boolean ValidarFormulario() {
+
+        if (TextoVacio(txt_identificacion.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese la identificación del paciente");
+
+            return false;
+        }
+
+        if (cb_vacuna.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione una vacuna");
+            return false;
+        }
+
+        if (cb_dosis.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione una dosis");
+            return false;
+        }
+
+        if (FechaVacia(ftf_fecha_proxima_dosis.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingrese la fecha de la siguiente dosis");
+            return false;
+        }
+
+        return true;
+    }
+
+    private Boolean FechaVacia(String fecha) {
+        return TextoVacio(fecha);
+    }
+
+    private static boolean TextoVacio(String parametro) {
+        return parametro == null || parametro.trim().length() == 0;
+    }
 
     /**
      * @param args the command line arguments
