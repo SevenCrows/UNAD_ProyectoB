@@ -165,10 +165,8 @@ public class Ingreso extends javax.swing.JFrame {
         }        
         else            
         {
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+            JOptionPane.showMessageDialog(null, "Usuario no encontrado, verifique si digito mal la información o si esta inactivo");
         }
-
-
     }//GEN-LAST:event_btn_ingresarActionPerformed
 
     private void btn_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrarActionPerformed

@@ -6,6 +6,11 @@ package Interfaces.Consulta;
 
 import Interfaces.MenuPrincipal;
 import Interfaces.RegistroUsuario;
+import Variables.Consulta.UsuarioConsulta;
+import Variables.Modelo.ModeloUsuario;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,12 +18,17 @@ import Interfaces.RegistroUsuario;
  */
 public class ConsultaUsuario extends javax.swing.JFrame {
 
+    private ModeloUsuario modeloUsuario;
+    private ArrayList<UsuarioConsulta> listaUsuario;
+
     /**
      * Creates new form ConsultaUsuario
      */
     public ConsultaUsuario() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+        this.modeloUsuario = new ModeloUsuario();
+        this.listaUsuario = new ArrayList<>();
     }
 
     /**
@@ -34,8 +44,8 @@ public class ConsultaUsuario extends javax.swing.JFrame {
         lb_titulo_registro = new javax.swing.JLabel();
         panel_consulta_usuario = new javax.swing.JPanel();
         tabla_usuario = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        txt_uscar_identificacion = new javax.swing.JTextField();
+        jtable_usuario = new javax.swing.JTable();
+        txt_buscar_identificacion = new javax.swing.JTextField();
         lb_identificacion = new javax.swing.JLabel();
         btn_buscar = new javax.swing.JButton();
         btn_editar_registro = new javax.swing.JButton();
@@ -69,18 +79,33 @@ public class ConsultaUsuario extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtable_usuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Identificacion", "Nombres", "Apellidos", "Genero", "Activo"
             }
-        ));
-        tabla_usuario.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_usuario.setViewportView(jtable_usuario);
 
         lb_identificacion.setText("Identificación");
 
@@ -115,7 +140,7 @@ public class ConsultaUsuario extends javax.swing.JFrame {
                     .addGroup(panel_consulta_usuarioLayout.createSequentialGroup()
                         .addComponent(lb_identificacion)
                         .addGap(18, 18, 18)
-                        .addComponent(txt_uscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_buscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(tabla_usuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel_consulta_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -129,7 +154,7 @@ public class ConsultaUsuario extends javax.swing.JFrame {
             .addGroup(panel_consulta_usuarioLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(panel_consulta_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_uscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_buscar_identificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lb_identificacion)
                     .addComponent(btn_buscar))
                 .addGap(27, 27, 27)
@@ -171,13 +196,63 @@ public class ConsultaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_regresarActionPerformed
 
     private void btn_editar_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editar_registroActionPerformed
-        RegistroUsuario registro = new RegistroUsuario();
-        registro.setVisible(true);
-        this.setVisible(false);
+
+        int column = 0;
+        int row = jtable_usuario.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione un registro para continuar");
+        } else {
+            Object value = jtable_usuario.getModel().getValueAt(row, column);
+            if (value == null) {
+                JOptionPane.showMessageDialog(null, "Seleccione un registro para continuar");
+            } else {
+
+                for (UsuarioConsulta consulta : this.listaUsuario) {
+                    if (consulta.getId() == (Integer) value) {
+                        RegistroUsuario registro = new RegistroUsuario(consulta, true);
+                        registro.setVisible(true);
+                        this.setVisible(false);
+                    }
+                }
+
+            }
+        }
     }//GEN-LAST:event_btn_editar_registroActionPerformed
 
     private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
         // TODO add your handling code here:
+
+        if (TextoVacio(txt_buscar_identificacion.getText())) {
+            JOptionPane.showMessageDialog(null, "Diligencie una identificación para buscar");
+        } else {
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtable_usuario.setModel(modelo);
+            modelo.addColumn("Id");
+            modelo.addColumn("Identificación");
+            modelo.addColumn("Nombres");
+            modelo.addColumn("Apellidos");
+            modelo.addColumn("Genero");
+            modelo.addColumn("Activo");
+
+            this.listaUsuario = this.modeloUsuario.ConsultarListaUsuariosPorIdentificacion(txt_buscar_identificacion.getText());
+
+            if (listaUsuario.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No se encontraron registros");
+            } else {
+                for (int i = 0; i < listaUsuario.size(); i++) {
+                    Object[] datosUsuario = {
+                        listaUsuario.get(i).getId(),
+                        listaUsuario.get(i).getIdentificacion(),
+                        (listaUsuario.get(i).getPrimerNombre() + " " + listaUsuario.get(i).getSegundoNombre()),
+                        (listaUsuario.get(i).getPrimerApellido() + " " + listaUsuario.get(i).getSegundoApellido()),
+                        listaUsuario.get(i).getGenero(),
+                        this.UsuarioActivo(listaUsuario.get(i).getActivo())
+                    };
+                    modelo.addRow(datosUsuario);
+                }
+            }
+        }
     }//GEN-LAST:event_btn_buscarActionPerformed
 
     /**
@@ -194,16 +269,24 @@ public class ConsultaUsuario extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaUsuario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -215,16 +298,29 @@ public class ConsultaUsuario extends javax.swing.JFrame {
         });
     }
 
+    private static boolean TextoVacio(String parametro) {
+        return parametro == null || parametro.trim().length() == 0;
+    }
+
+    private String UsuarioActivo(Boolean activo) {
+        if (activo) {
+            return "Si";
+        } else {
+            return "No";
+        }
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_editar_registro;
     private javax.swing.JButton btn_regresar;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtable_usuario;
     private javax.swing.JLabel lb_identificacion;
     private javax.swing.JLabel lb_titulo_registro;
     private javax.swing.JPanel panel_consulta_usuario;
     private javax.swing.JPanel panel_toolbar_menu;
     private javax.swing.JScrollPane tabla_usuario;
-    private javax.swing.JTextField txt_uscar_identificacion;
+    private javax.swing.JTextField txt_buscar_identificacion;
     // End of variables declaration//GEN-END:variables
 }

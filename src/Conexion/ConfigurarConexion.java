@@ -7,6 +7,7 @@ package Conexion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,7 +36,7 @@ public class ConfigurarConexion {
             conection = DriverManager.getConnection(cadenaConexion);
             System.out.println("Conexion exitosa");
         } catch (SQLException e) {
-            System.out.println("Error en la Conexion");
+            JOptionPane.showMessageDialog(null, "Error en la Conexion");
         }
     }
 
@@ -43,7 +44,7 @@ public class ConfigurarConexion {
         try {
             conection.close();
         } catch (SQLException e) {
-            System.out.println("Error en el cierre de la Conexion");
+            JOptionPane.showMessageDialog(null, "Error en el cierre de la Conexion");
         }
     }
 }

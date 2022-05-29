@@ -32,7 +32,7 @@ public class ModeloLogin {
         Boolean ingreso = true;
         try {
             stmt = conexion.conection.createStatement();
-            rs = stmt.executeQuery(String.format("SELECT * FROM login WHERE Usuario = '%s' AND Contrasenia = '%s'", usuario, password));
+            rs = stmt.executeQuery(String.format("SELECT * FROM login l INNER JOIN persona p on l.IdPersona = p.Id WHERE l.Usuario = '%s' AND l.Contrasenia = '%s' AND p.Activo = 1", usuario, password));
 
             if (!rs.isBeforeFirst()) {
                 ingreso = false;

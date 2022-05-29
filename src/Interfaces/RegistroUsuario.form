@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panel_toolbar_registro" alignment="0" pref="882" max="32767" attributes="0"/>
+          <Component id="panel_toolbar_registro" alignment="0" pref="904" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <Component id="panel_registro" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -159,12 +159,12 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="lb_primer_nombre" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_primer_nombre" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="txt_primer_nombre" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="lb_segundo_nombre" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_segundo_nombre" max="32767" attributes="0"/>
+                                      <Component id="txt_segundo_nombre" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -304,7 +304,7 @@
         <Component class="javax.swing.JFormattedTextField" name="ftf_fecha_nacimiento">
           <Properties>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="2" type="1"/>
+              <Format format="yyyy-MM-dd" subtype="-1" type="1"/>
             </Property>
           </Properties>
         </Component>
@@ -363,9 +363,9 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jpf_password" min="-2" pref="220" max="-2" attributes="0"/>
-                                  <Component id="jpf_password_rectificar" min="-2" pref="219" max="-2" attributes="0"/>
-                                  <Component id="txt_usuario" min="-2" pref="220" max="-2" attributes="0"/>
+                                  <Component id="jpf_password" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="jpf_password_rectificar" min="-2" pref="242" max="-2" attributes="0"/>
+                                  <Component id="txt_usuario" min="-2" pref="242" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">

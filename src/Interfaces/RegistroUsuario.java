@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import Interfaces.Consulta.ConsultaUsuario;
+import Variables.Consulta.UsuarioConsulta;
 import Variables.Entidad.Empleado;
 import Variables.Entidad.Genero;
 import Variables.Entidad.Login;
@@ -17,11 +19,11 @@ import Variables.Modelo.ModeloTipoUsuario;
 import Variables.Modelo.ModeloUsuario;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +34,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
     private Boolean esEdicion;
     private ModeloUsuario modeloUsuario;
     private ModeloLogin modeloLogin;
+    private int IdUsuario;
 
     /**
      * Creates new form RegistroUsuario
@@ -45,15 +48,20 @@ public class RegistroUsuario extends javax.swing.JFrame {
         CargarListaTipoUsuario();
         this.modeloUsuario = new ModeloUsuario();
         this.modeloLogin = new ModeloLogin();
+        this.IdUsuario = 0;
     }
 
-    public RegistroUsuario(Boolean editar) {
+    public RegistroUsuario(UsuarioConsulta usuarioConsulta, Boolean editar) {
         this.esEdicion = editar;
         initComponents();
         this.setLocationRelativeTo(null);
         CargarListaGenero();
         CargarListaTipoIdentificacion();
         CargarListaTipoUsuario();
+        this.modeloUsuario = new ModeloUsuario();
+        this.modeloLogin = new ModeloLogin();
+        this.IdUsuario = usuarioConsulta.getId();
+        this.CargarInformacionFormulario(usuarioConsulta);
     }
 
     private void CargarListaGenero() {
@@ -86,6 +94,26 @@ public class RegistroUsuario extends javax.swing.JFrame {
         }
 
         cb_tipo_usuario.setEnabled(!this.esEdicion);
+    }
+
+    private void CargarInformacionFormulario(UsuarioConsulta usuario) {
+        cb_tipo_identificacion.setSelectedIndex(usuario.getIdTipoIdentificacion());
+        cb_genero.setSelectedIndex(usuario.getIdGenero());
+        cb_tipo_usuario.setSelectedIndex(usuario.getIdTipoUsuario());
+        txt_identificacion.setText(String.valueOf(usuario.getIdentificacion()));
+        txt_identificacion.setEnabled(!this.esEdicion);
+        txt_primer_nombre.setText(usuario.getPrimerNombre());
+        txt_segundo_nombre.setText(usuario.getSegundoNombre());
+        txt_primer_apellido.setText(usuario.getPrimerApellido());
+        txt_segundo_apellido.setText(usuario.getSegundoApellido());
+        ftf_fecha_nacimiento.setText(usuario.getFechaNacimiento().toString());
+        cbx_activo.setSelected(usuario.getActivo());
+
+        txt_usuario.setText(usuario.getUsuario());
+        txt_usuario.setEnabled(!this.esEdicion);
+        jpf_password.setText(usuario.getContrasenia());
+        jpf_password.setEnabled(!this.esEdicion);
+        jpf_password_rectificar.setVisible(!this.esEdicion);
     }
 
     /**
@@ -197,7 +225,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
             }
         });
 
-        ftf_fecha_nacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM))));
+        ftf_fecha_nacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
 
         lb_tipo_usuario1.setText("Activo:");
 
@@ -229,9 +257,9 @@ public class RegistroUsuario extends javax.swing.JFrame {
                             .addComponent(lb_password_repetir))
                         .addGap(18, 18, 18)
                         .addGroup(pnl_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jpf_password_rectificar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jpf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jpf_password_rectificar, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnl_loginLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(lb_titulo_usuario)))
@@ -318,11 +346,11 @@ public class RegistroUsuario extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lb_primer_nombre)
-                                    .addComponent(txt_primer_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txt_primer_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lb_segundo_nombre)
-                                    .addComponent(txt_segundo_nombre))
+                                    .addComponent(txt_segundo_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panel_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lb_primer_apellido)
@@ -357,7 +385,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_toolbar_registro, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
+            .addComponent(panel_toolbar_registro, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panel_registro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -374,63 +402,104 @@ public class RegistroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
-        Ingreso ingreso = new Ingreso();
-        ingreso.setVisible(true);
-        this.setVisible(false);
+
+        this.SalirPantalla();
     }//GEN-LAST:event_btn_regresarActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
 
         try {
-            if (cb_tipo_usuario.getSelectedIndex() != 0) {
-                if (cb_tipo_usuario.getSelectedIndex() == 1) {
-                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                    Date fecha = (Date) formato.parse(ftf_fecha_nacimiento.getText());
-                    Paciente paciente = new Paciente(
-                            Long.parseLong(txt_identificacion.getText()),
-                            txt_primer_nombre.getText(),
-                            txt_segundo_nombre.getText(),
-                            txt_primer_apellido.getText(),
-                            txt_segundo_apellido.getText(),
-                            Date.valueOf("1993-05-27"),
-                            true,
-                            cb_genero.getSelectedIndex(),
-                            cb_tipo_usuario.getSelectedIndex(),
-                            cb_tipo_identificacion.getSelectedIndex()
-                    );
+            String mensajeAlmacenamiento = "";
+            if (FechaVacia(ftf_fecha_nacimiento.getText())) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar una fecha para continuar");
+            } else {
+                if (cb_tipo_usuario.getSelectedIndex() != 0) {
+                    if (cb_tipo_usuario.getSelectedIndex() == 1) {
+                        Paciente paciente = new Paciente(
+                                Long.parseLong(txt_identificacion.getText()),
+                                txt_primer_nombre.getText(),
+                                txt_segundo_nombre.getText(),
+                                txt_primer_apellido.getText(),
+                                txt_segundo_apellido.getText(),
+                                Date.valueOf(ftf_fecha_nacimiento.getText()),
+                                cbx_activo.isSelected(),
+                                cb_genero.getSelectedIndex(),
+                                cb_tipo_usuario.getSelectedIndex(),
+                                cb_tipo_identificacion.getSelectedIndex()
+                        );
 
-                    int id = this.modeloUsuario.GuardarUsuario(paciente);
+                        if (this.esEdicion) {
+                            paciente.setId(this.IdUsuario);
+                            this.modeloUsuario.EditarUsuario(paciente);
+                            mensajeAlmacenamiento = "Datos actualizados correctamente";
+                        } else {
+                            int id = this.modeloUsuario.GuardarUsuario(paciente);
+                            mensajeAlmacenamiento = "Se creo el registro satisfactoriamente";
+                        }
 
-                } else {
+                    } else {
+                        Empleado empleado = new Empleado(
+                                Long.parseLong(txt_identificacion.getText()),
+                                txt_primer_nombre.getText(),
+                                txt_segundo_nombre.getText(),
+                                txt_primer_apellido.getText(),
+                                txt_segundo_apellido.getText(),
+                                Date.valueOf(ftf_fecha_nacimiento.getText()),
+                                cbx_activo.isSelected(),
+                                cb_genero.getSelectedIndex(),
+                                cb_tipo_usuario.getSelectedIndex(),
+                                cb_tipo_identificacion.getSelectedIndex(),
+                                txt_usuario.getText(),
+                                String.copyValueOf(jpf_password.getPassword())
+                        );
 
-                    Empleado empleado = new Empleado(
-                            Long.parseLong(txt_identificacion.getText()),
-                            txt_primer_nombre.getText(),
-                            txt_segundo_nombre.getText(),
-                            txt_primer_apellido.getText(),
-                            txt_segundo_apellido.getText(),
-                            Date.valueOf("1993-05-27"),
-                            true,
-                            cb_genero.getSelectedIndex(),
-                            cb_tipo_usuario.getSelectedIndex(),
-                            cb_tipo_identificacion.getSelectedIndex(),
-                            txt_usuario.getText(),
-                            String.copyValueOf(jpf_password.getPassword())
-                    );
+                        if (this.esEdicion) {
+                            empleado.setId(this.IdUsuario);
+                            this.modeloUsuario.EditarUsuario(empleado);
+                            mensajeAlmacenamiento = "Datos actualizados correctamente";
+                        } else {
+                            if (Arrays.equals(jpf_password.getPassword(), jpf_password_rectificar.getPassword())) {
+                                int id = this.modeloUsuario.GuardarUsuario(empleado);
+                                Login login = new Login(id, empleado.getUsuario(), empleado.getContrasenia());
+                                this.modeloLogin.GuardarLoginEmpleado(login);
+                                mensajeAlmacenamiento = "Se creo el registro satisfactoriamente";
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Las contraseñas no son iguales");
+                            }
+                        }
+                    }
 
-                    int id = this.modeloUsuario.GuardarUsuario(empleado);
-
-                    Login login = new Login(id, empleado.getUsuario(), empleado.getContrasenia());
-                    this.modeloLogin.GuardarLoginEmpleado(login);
+                    int showConfirmDialog = JOptionPane.showConfirmDialog(null, mensajeAlmacenamiento, "Ok!", JOptionPane.DEFAULT_OPTION);
+                    if (showConfirmDialog == 0) {
+                        SalirPantalla();
+                    }
                 }
             }
+
         } catch (SQLException ex) {
-            Logger.getLogger(RegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
             Logger.getLogger(RegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
+    private Boolean FechaVacia(String fecha) {
+        return TextoVacio(fecha);
+    }
+
+    private static boolean TextoVacio(String parametro) {
+        return parametro == null || parametro.trim().length() == 0;
+    }
+
+    private void SalirPantalla() {
+        if (this.esEdicion) {
+            ConsultaUsuario consultaUsuario = new ConsultaUsuario();
+            consultaUsuario.setVisible(true);
+            this.setVisible(false);
+        } else {
+            Ingreso ingreso = new Ingreso();
+            ingreso.setVisible(true);
+            this.setVisible(false);
+        }
+    }
 
     private void cb_tipo_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_tipo_usuarioActionPerformed
         // TODO add your handling code here:
